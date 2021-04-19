@@ -11,15 +11,17 @@ dechiffrer(c,p,q)={   \\déchiffrement d'un chiffré par le système de Rabin
 	modq=chiffre^((q+1)/4);  \\calcul de la racine carré mod q
 	[u,v]=bezout(p,q);
 	\\on a pu+vq=1 donc pu = 1 mod q et donc pu*modq = modq mod(q)
-	\\Même chose avec pv
+	\\Même chose avec qv
 	m1=(u*p*modq+v*q*modp);
 	m2=n-m1;
 	m3=(u*p*modq-v*q*modp);
 	m4=n-m3;
+	\\Les quatres messages potentiels:
 	mpot=[lift(m1),lift(m2),lift(m3),lift(m4)];
+	\\ on cherche celui squi correspond aux paramètres du chiffré
 	for(i=1,4,if((kronecker(mpot[i],n)==c[2])&&(mpot[i]%2==c[3]),return(mpot[i])));
 }
-
+\\ p-1 de Pollard pour factoriser n
 PMUPollard(n) = {
 	i=2;
 	a=Mod(2,n);
